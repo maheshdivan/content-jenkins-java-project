@@ -1,7 +1,5 @@
 pipeline {
-  agent {
-  label 'master'
-  }
+  agent none
   
   options {
     buildDiscarder(logRotator(numToKeepStr: '2', artifactNumToKeepStr: '1'))
@@ -14,21 +12,41 @@ pipeline {
 
   stages {
     stage('unit tests'){
+      agent{
+      label 'apache'
+      }
       steps {
       sh 'ant -f test.xml -v'
       junit 'reports/result.xml'  
       }
     }
     stage('build') {
+      agent{
+      label 'apache'
+      }
       steps {
         sh 'ant -f build.xml -v'
       }
     }
     stage('deploy'){
+      agent{
+      label 'apache'
+      }
       steps {
         sh 'cp dist/rectangle_${BUILD_NUMBER}.jar /var/www/html/rectangles/all/'
       }
     }
+    stage('Running on CentOs'){
+      agent{
+      label 'CentOs'
+      }
+      steps {
+        sh "wget http://mahesh-19791.mylabserver.com/rectangles/all/rectangle_${BUILD_NUMBER}.jar"
+        sh "java -jar rectangle_${BUILD_NUMBER}.jar 3 4"
+      }
+      
+    }
+    
   }
   post{
     always{
