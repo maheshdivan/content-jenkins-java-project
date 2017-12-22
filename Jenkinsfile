@@ -47,8 +47,8 @@ pipeline {
       label 'CentOs'
       }
       steps {
-        sh "wget http://mahesh-19791.mylabserver.com/rectangles/all/rectangle_${BUILD_NUMBER}.jar"
-        sh "java -jar rectangle_${BUILD_NUMBER}.jar 3 4"
+        sh "wget http://mahesh-19791.mylabserver.com/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
+        sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
       }
       
     }
@@ -63,7 +63,7 @@ pipeline {
       branch 'development'
       }
           steps {
-          sh "cp /var/www/html/rectangles/all/rectangle_${BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${BUILD_NUMBER}.jar"           }
+          sh "cp /var/www/html/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.BUILD_NUMBER}.jar"           }
                 
           }   
   }
