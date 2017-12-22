@@ -5,7 +5,9 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '2', artifactNumToKeepStr: '1'))
   
   }
+  
 
+  
   environment {
     MAJOR_VERSION = 1
   }
@@ -37,9 +39,12 @@ pipeline {
     stage('deploy'){
       agent{
       label 'apache'
+        
       }
       steps {
-        sh 'cp dist/rectangle_${BUILD_NUMBER}.jar /var/www/html/rectangles/all/'
+        sh "rm -rf /var/www/html/rectangles/all/${BRANCH_NAME}"
+        sh "mkdir /var/www/html/rectangles/all/${BRANCH_NAME}"
+        sh 'cp dist/rectangle_${BUILD_NUMBER}.jar /var/www/html/rectangles/all/${BRANCH_NAME}/'
       }
     }
     stage('Running on CentOs'){
@@ -47,11 +52,12 @@ pipeline {
       label 'CentOs'
       }
       steps {
-        sh "wget http://mahesh-19791.mylabserver.com/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
-        sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
+        sh "wget http://mahesh-19791.mylabserver.com/rectangles/all/${BRANCH_NAME}/rectangle_${BUILD_NUMBER}.jar"
+        sh "java -jar rectangle_${BUILD_NUMBER}.jar 3 4"
       }
       
     }
+    
     
     stage('promote to Green') {
       
@@ -63,10 +69,34 @@ pipeline {
       branch 'development'
       }
           steps {
-          sh "cp /var/www/html/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.BUILD_NUMBER}.jar"           }
+          sh "cp /var/www/html/rectangles/all/${BRANCH_NAME}/rectangle_${BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${BUILD_NUMBER}.jar"           }
                 
           }   
+    
+    stage ('Promote development to Master') {
+      
+      agent{
+      label 'apache'
+      }
+    
+      when {
+      branch 'development'
+      }
+      steps {
+      echo "Staching all local changes"
+        sh 'git stash'
+        echo "Checkout development"
+        sh 'git checkout development'
+        echo "checking out master"
+        sh ' git checkout master'
+        echo "merging development into master"
+        sh 'git merge development master'
+        echo "pushing to origin master"
+        sh 'git push origin master'
+      }
+    }
   }
  
+  
 }  
     
