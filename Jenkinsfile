@@ -42,6 +42,7 @@ pipeline {
         
       }
       steps {
+        sh "rm -rf /var/www/html/rectangles/all/${BRANCH_NAME}"
         sh "mkdir /var/www/html/rectangles/all/${BRANCH_NAME}"
         sh 'cp dist/rectangle_${BUILD_NUMBER}.jar /var/www/html/rectangles/all/${BRANCH_NAME}/'
       }
