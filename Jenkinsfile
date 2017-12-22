@@ -6,8 +6,6 @@ pipeline {
   
   }
   
-
-  
   environment {
     MAJOR_VERSION = 1
   }
