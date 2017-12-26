@@ -75,13 +75,7 @@ pipeline {
           sh "cp /var/www/html/rectangles/all/rectangle_${BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${BUILD_NUMBER}.jar"           }
                 
           }   
-  }
- 
-}  
-    
-          sh "cp /var/www/html/rectangles/all/${BRANCH_NAME}/rectangle__${MAJOR_VERSION}.${BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${BUILD_NUMBER}.jar"           }
-                
-          }   
+  }  
     
     stage ('Promote development to Master') {
       
