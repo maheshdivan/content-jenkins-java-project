@@ -42,7 +42,7 @@ pipeline {
       steps {
         sh "rm -rf /var/www/html/rectangles/all/${BRANCH_NAME}"
         sh "mkdir /var/www/html/rectangles/all/${BRANCH_NAME}"
-        sh 'cp dist/rectangle_${BUILD_NUMBER}.jar /var/www/html/rectangles/all/${BRANCH_NAME}/'
+        sh 'cp dist/rectangle__${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${BRANCH_NAME}/'
       }
     }
     stage('Running on CentOs'){
@@ -50,8 +50,8 @@ pipeline {
       label 'CentOs'
       }
       steps {
-        sh "wget http://mahesh-19791.mylabserver.com/rectangles/all/${BRANCH_NAME}/rectangle_${BUILD_NUMBER}.jar"
-        sh "java -jar rectangle_${BUILD_NUMBER}.jar 3 4"
+        sh "wget http://mahesh-19791.mylabserver.com/rectangles/all/${BRANCH_NAME}/rectangle__${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "java -jar rectangle__${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar 3 4"
       }
       
     }
@@ -67,7 +67,7 @@ pipeline {
       branch 'development'
       }
           steps {
-          sh "cp /var/www/html/rectangles/all/${BRANCH_NAME}/rectangle_${BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${BUILD_NUMBER}.jar"           }
+          sh "cp /var/www/html/rectangles/all/${BRANCH_NAME}/rectangle__${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${BUILD_NUMBER}.jar"           }
                 
           }   
     
