@@ -37,7 +37,7 @@ pipeline {
     stage('deploy'){
       agent{
       label 'apache'
-        
+       
       }
       steps {
         sh "rm -rf /var/www/html/rectangles/all/${BRANCH_NAME}"
