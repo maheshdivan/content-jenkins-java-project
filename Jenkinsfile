@@ -102,7 +102,7 @@ pipeline {
     }
     post {
       failure{
-      emailtext(
+      emailext(
       subject: "Failure"
       body: "Build failed"
        to: "mahesh490@gmail.com" 
