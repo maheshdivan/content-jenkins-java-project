@@ -100,6 +100,15 @@ pipeline {
         sh 'git push origin rectangle-${MAJOR_VERSION}.${BUILD_NUMBER}'
       }
     }
+    post {
+      failure{
+      emailtext(
+      subject: "Failure"
+      body: "Build failed"
+       to: "mahesh490@gmail.com" 
+      )
+      }
+    }
   }
  
   
