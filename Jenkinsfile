@@ -100,7 +100,9 @@ pipeline {
         sh 'git push origin rectangle-${MAJOR_VERSION}.${BUILD_NUMBER}'
       }
     }
-    post {
+    
+  }
+ post {
       failure {
       emailext(
       subject: "Failure",
@@ -109,8 +111,6 @@ pipeline {
       )
       }
     }
-  }
- 
   
 }  
     
